@@ -1,8 +1,53 @@
-.DS_Store
-/.build
-/Packages
-xcuserdata/
+# Xcode Project
+**/*.xcodeproj/xcuserdata/
+**/*.xcworkspace/xcuserdata/
+**/.swiftpm/xcode/xcuserdata/
+**/*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+**/*.xcworkspace/xcshareddata/*.xccheckout
+**/*.xcworkspace/xcshareddata/*.xcscmblueprint
+**/*.playground/**/timeline.xctimeline
+**/*.xcodeproj/project.xcworkspace/xcuserdata/
+**/*.xcodeproj/xcuserdata/
+*.xcbkptlist
+
+# Build
+build/
 DerivedData/
-.swiftpm/configuration/registries.json
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
-.netrc
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+
+# Other
+.idea/
+*~
+.DS_Store
+*.swp
+*.save
+._*
+*.bak
+
+# Ignore all Breakpoints_v2.xcbkptlist files
+**/xcuserdata/**/*.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+xcuserdata/
+
+# Compatibility with older Xcode versions
+*.xcscmblueprint
+*.xccheckout
+
+# Obj-C/Swift specific
+*.hmap
+
+# App packaging
+*.ipa
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# CSV
+*.orig
+.svn
+.aider*
