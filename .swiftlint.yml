@@ -1,0 +1,40 @@
+excluded:
+  - proto/
+
+disabled_rules:
+  - line_length
+  - function_body_length
+  - type_body_length
+  - identifier_name
+  - file_length
+  - type_name
+  - function_parameter_count
+  - shorthand_operator
+  - class_delegate_protocol
+  - inclusive_language
+opt_in_rules:
+  - indentation_width
+  - redundant_type_annotation
+  - operator_usage_whitespace
+  - force_unwrapping
+
+indentation_width:
+  severity: error
+  indentation_width: 2
+  include_multiline_strings: false
+  include_comments: false
+  include_compiler_directives: false
+
+force_unwrapping:
+  severity: error
+
+vertical_whitespace:
+  max_empty_lines: 1
+
+custom_rules:
+  weak_self_closure:
+    included: ".*.swift"
+    name: "Use weak self in closures"
+    message: "Use weak self when create a closure."
+    regex: "\\{\\s*[^\\[]{0,50}\\s+\\bin\\b([a-zA-Z\\\\.\\(\\)\\[\\{\\}\\>\\/\\=]|\\s)+(self)[^!]"
+    severity: error
