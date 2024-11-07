@@ -5,6 +5,7 @@
 //  Created by Michael Harrigan on 11/1/24.
 //
 import SwiftUI
+
 struct ExampleModalContent: View {
   @Binding var isPresented: Bool
   @State private var isExpanded = false
@@ -21,10 +22,12 @@ struct ExampleModalContent: View {
       }
 
       Button(action: {
-        withAnimation(.spring(
-          response: 0.35,
-          dampingFraction: 0.7
-        )) {
+        withAnimation(
+          .spring(
+            response: 0.35,
+            dampingFraction: 0.7
+          )
+        ) {
           isExpanded.toggle()
         }
       }) {
@@ -38,10 +41,12 @@ struct ExampleModalContent: View {
       }
 
       Button(action: {
-        withAnimation(.spring(
-          response: 0.28,
-          dampingFraction: 0.68
-        )) {
+        withAnimation(
+          .spring(
+            response: 0.28,
+            dampingFraction: 0.68
+          )
+        ) {
           isPresented = false
         }
       }) {

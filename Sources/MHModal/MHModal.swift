@@ -15,10 +15,12 @@ public struct MHModal<Content: View>: View {
   @State private var previousContentSize: CGSize = .zero
   @State private var dragOffset: CGFloat = 0
   @GestureState private var isDragging = false
-  
-  public init(isPresented: Binding<Bool>,
-              configuration: MHModalConfiguration = MHModalConfiguration(),
-              @ViewBuilder content: () -> Content) {
+
+  public init(
+    isPresented: Binding<Bool>,
+    configuration: MHModalConfiguration = MHModalConfiguration(),
+    @ViewBuilder content: () -> Content
+  ) {
     self._isPresented = isPresented
     self.configuration = configuration
     self.content = content()
@@ -36,10 +38,12 @@ public struct MHModal<Content: View>: View {
   )
 
   private var dragAnimation: Animation {
-    isDragging ? .interactiveSpring() : .spring(
-      response: springConfig.response,
-      dampingFraction: springConfig.dampingFraction
-    )
+    isDragging
+      ? .interactiveSpring()
+      : .spring(
+        response: springConfig.response,
+        dampingFraction: springConfig.dampingFraction
+      )
   }
 
   private func calculateDragOffset(_ translation: CGFloat) -> CGFloat {
@@ -62,10 +66,12 @@ public struct MHModal<Content: View>: View {
             .ignoresSafeArea()
             .transition(.opacity.animation(.easeOut(duration: 0.2)))
             .onTapGesture {
-              withAnimation(.spring(
-                response: dismissConfig.response,
-                dampingFraction: dismissConfig.dampingFraction
-              )) {
+              withAnimation(
+                .spring(
+                  response: dismissConfig.response,
+                  dampingFraction: dismissConfig.dampingFraction
+                )
+              ) {
                 isPresented = false
               }
             }
@@ -123,17 +129,21 @@ public struct MHModal<Content: View>: View {
                 let shouldDismiss = value.translation.height > 100 || velocity > 170
 
                 if shouldDismiss {
-                  withAnimation(.spring(
-                    response: dismissConfig.response,
-                    dampingFraction: dismissConfig.dampingFraction
-                  )) {
+                  withAnimation(
+                    .spring(
+                      response: dismissConfig.response,
+                      dampingFraction: dismissConfig.dampingFraction
+                    )
+                  ) {
                     isPresented = false
                   }
                 } else {
-                  withAnimation(.spring(
-                    response: springConfig.response,
-                    dampingFraction: springConfig.dampingFraction
-                  )) {
+                  withAnimation(
+                    .spring(
+                      response: springConfig.response,
+                      dampingFraction: springConfig.dampingFraction
+                    )
+                  ) {
                     dragOffset = 0
                   }
                 }
@@ -144,16 +154,18 @@ public struct MHModal<Content: View>: View {
               insertion: AnyTransition.opacity
                 .combined(with: .move(edge: .bottom))
                 .combined(with: .scale(scale: 0.93, anchor: .bottom))
-                .animation(.spring(
-                  response: 0.45,
-                  dampingFraction: 0.8
-                )),
+                .animation(
+                  .spring(
+                    response: 0.45,
+                    dampingFraction: 0.8
+                  )),
               removal: AnyTransition.opacity
                 .combined(with: .move(edge: .bottom))
-                .animation(.spring(
-                  response: dismissConfig.response,
-                  dampingFraction: dismissConfig.dampingFraction
-                ))
+                .animation(
+                  .spring(
+                    response: dismissConfig.response,
+                    dampingFraction: dismissConfig.dampingFraction
+                  ))
             )
           )
         }

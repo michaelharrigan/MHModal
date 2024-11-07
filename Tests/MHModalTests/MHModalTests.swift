@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import MHModal
 
 final class MHModalTests: XCTestCase {
