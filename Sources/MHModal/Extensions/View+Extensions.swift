@@ -8,16 +8,18 @@
 import SwiftUI
 
 public extension View {
-    func mhModal<Content: View>(
-        isPresented: Binding<Bool>,
-        configuration: MHModalConfiguration = MHModalConfiguration(),
-        @ViewBuilder content: @escaping () -> Content
-    ) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                MHModal(isPresented: isPresented, content: content)
-            }
-        }
+  func mhModal<Content: View>(
+    isPresented: Binding<Bool>,
+    configuration: MHModalConfiguration = MHModalConfiguration(),
+    @ViewBuilder content: @escaping () -> Content
+  ) -> some View {
+    ZStack {
+      self
+      if isPresented.wrappedValue {
+        MHModal(isPresented: isPresented,
+                configuration: configuration,
+                content: content)
+      }
     }
+  }
 }

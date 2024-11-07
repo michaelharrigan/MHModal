@@ -10,15 +10,19 @@ import SwiftUI
 public struct MHModal<Content: View>: View {
   @Binding private var isPresented: Bool
   private let content: Content
+  private let configuration: MHModalConfiguration
   @State private var contentSize: CGSize = .zero
   @State private var previousContentSize: CGSize = .zero
   @State private var dragOffset: CGFloat = 0
   @GestureState private var isDragging = false
-
-  // Constants
-  private let horizontalPadding: CGFloat = 20
-  private let bottomPadding: CGFloat = 20
-  private let cornerRadius: CGFloat = 38
+  
+  public init(isPresented: Binding<Bool>,
+              configuration: MHModalConfiguration = MHModalConfiguration(),
+              @ViewBuilder content: () -> Content) {
+    self._isPresented = isPresented
+    self.configuration = configuration
+    self.content = content()
+  }
 
   // Spring animation configurations
   private let springConfig = SpringAnimation(
@@ -30,11 +34,6 @@ public struct MHModal<Content: View>: View {
     response: 0.28,  // Quick dismissal
     dampingFraction: 0.68  // Slight bounce on dismiss
   )
-
-  public init(isPresented: Binding<Bool>, @ViewBuilder content: () -> Content) {
-    self._isPresented = isPresented
-    self.content = content()
-  }
 
   private var dragAnimation: Animation {
     isDragging ? .interactiveSpring() : .spring(
@@ -74,11 +73,13 @@ public struct MHModal<Content: View>: View {
           // Modal content
           VStack(spacing: 0) {
             // Drag indicator
-            RoundedRectangle(cornerRadius: 2.5)
-              .fill(Color.gray.opacity(0.5))
-              .frame(width: 36, height: 5)
-              .padding(.top, 12)
-              .padding(.bottom, 20)
+            if configuration.showDragIndicator {
+              RoundedRectangle(cornerRadius: 2.5)
+                .fill(configuration.dragIndicatorColor)
+                .frame(width: 36, height: 5)
+                .padding(.top, 12)
+                .padding(.bottom, 20)
+            }
 
             content
               .background(
@@ -94,15 +95,15 @@ public struct MHModal<Content: View>: View {
           }
           .frame(maxWidth: .infinity)
           .background(Color.white)
-          .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+          .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
           .shadow(
             color: Color.black.opacity(0.15),
             radius: 10,
             x: 0,
             y: -2
           )
-          .padding(.horizontal, horizontalPadding)
-          .padding(.top, bottomPadding)
+          .padding(.horizontal, configuration.horizontalPadding)
+          .padding(.bottom, configuration.bottomPadding)
           .offset(y: dragOffset)
           .scaleEffect(
             1.0 - min(abs(dragOffset) / 1000, 0.1),
