@@ -37,7 +37,7 @@ public struct MHModal<Content: View>: View {
   @Binding private var isPresented: Bool
   private let content: Content
   private let configuration: MHModalConfiguration
-  
+
   @State private var contentSize: CGSize = .zero
   @State private var dragOffset: CGFloat = 0
   @GestureState private var isDragging = false
