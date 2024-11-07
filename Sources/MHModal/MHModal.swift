@@ -91,10 +91,12 @@ public struct MHModal<Content: View>: View {
   
   /// Provides the appropriate animation for dragging the modal.
   private var dragAnimation: Animation {
-    isDragging ? .interactiveSpring() : .spring(
-      response: springConfig.response,
-      dampingFraction: springConfig.dampingFraction
-    )
+    isDragging
+      ? .interactiveSpring()
+      : .spring(
+        response: springConfig.response,
+        dampingFraction: springConfig.dampingFraction
+      )
   }
   
   // MARK: - Body
