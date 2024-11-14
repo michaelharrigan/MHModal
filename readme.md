@@ -146,5 +146,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MHModal is available under the MIT license.
-
-// End of file. No additional content.
