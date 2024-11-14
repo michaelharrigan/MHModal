@@ -6,7 +6,7 @@
 //
 //
 import SwiftUI
-//
+
 /// A view that showcases different modal presentation styles and configurations using `MHModal`.
 ///
 /// This struct provides a comprehensive example of how to use `MHModal` in various scenarios,
@@ -34,7 +34,7 @@ struct MHModalExamples: View {
       .modifier(ModalPresenter(activeModal: $activeModal))
     }
   }
-  
+
   /// Creates a row for each modal type in the list.
   ///
   /// - Parameter type: The `ModalType` for which to create a row.
@@ -79,6 +79,7 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
+
   /// The tint color for each modal type.
   var tint: Color {
     switch self {
@@ -195,7 +196,7 @@ private struct BasicModalContent: View {
     .padding(24)
   }
 }
-//
+
 /// Represents the content for a custom styled modal.
 private struct CustomModalContent: View {
   let onDismiss: () -> Void
@@ -249,7 +250,7 @@ private struct CustomModalContent: View {
     }
   }
 }
-//
+
 /// Represents the content for a modal with dynamic content.
 private struct DynamicModalContent: View {
   let onDismiss: () -> Void
@@ -318,7 +319,7 @@ private struct DynamicModalContent: View {
     }
   }
 }
-//
+
 /// Represents the content for a modal with custom configuration.
 private struct ConfiguredModalContent: View {
   let onDismiss: () -> Void

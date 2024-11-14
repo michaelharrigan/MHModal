@@ -6,7 +6,7 @@
 //
 //
 import SwiftUI
-//
+
 /// A customizable modal view that can be presented and dismissed with various animations and interactions.
 ///
 /// `MHModal` provides a flexible way to present content in a modal fashion, with support for:
@@ -91,12 +91,10 @@ public struct MHModal<Content: View>: View {
   
   /// Provides the appropriate animation for dragging the modal.
   private var dragAnimation: Animation {
-    isDragging
-      ? .interactiveSpring()
-      : .spring(
-        response: springConfig.response,
-        dampingFraction: springConfig.dampingFraction
-      )
+    isDragging ? .interactiveSpring() : .spring(
+      response: springConfig.response,
+      dampingFraction: springConfig.dampingFraction
+    )
   }
   
   // MARK: - Body
