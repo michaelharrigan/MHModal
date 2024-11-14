@@ -7,7 +7,10 @@
 //
 import SwiftUI
 //
-/// A view that showcases different modal presentation styles and configurations
+/// A view that showcases different modal presentation styles and configurations using `MHModal`.
+///
+/// This struct provides a comprehensive example of how to use `MHModal` in various scenarios,
+/// demonstrating different styles, configurations, and content types.
 struct MHModalExamples: View {
   @State private var activeModal: ModalType?
   @Environment(\.colorScheme) private var colorScheme
@@ -32,6 +35,10 @@ struct MHModalExamples: View {
     }
   }
   
+  /// Creates a row for each modal type in the list.
+  ///
+  /// - Parameter type: The `ModalType` for which to create a row.
+  /// - Returns: A view representing a row in the list for a specific modal type.
   private func modalRow(for type: ModalType) -> some View {
     Button {
       activeModal = type
@@ -56,11 +63,13 @@ struct MHModalExamples: View {
     }
   }
 }
-//
 // MARK: - Modal Types
+//
+/// Represents different types of modals that can be presented.
 private enum ModalType: String, CaseIterable {
   case basic, custom, dynamic, configured
   
+  /// The icon associated with each modal type.
   var icon: Image {
     switch self {
     case .basic: Image(systemName: "rectangle.portrait")
@@ -70,6 +79,7 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
+  /// The tint color for each modal type.
   var tint: Color {
     switch self {
     case .basic: .blue
@@ -79,6 +89,7 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
+  /// The title for each modal type.
   var title: String {
     switch self {
     case .basic: "Basic Modal"
@@ -88,6 +99,7 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
+  /// A brief description of each modal type.
   var description: String {
     switch self {
     case .basic: "Simple modal presentation"
@@ -97,25 +109,28 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
+  /// The section title for each modal type.
   var sectionTitle: String { title }
   
+  /// The configuration for each modal type.
   var configuration: MHModalConfiguration {
     switch self {
     case .configured:
-      return MHModalConfiguration(
-        horizontalPadding: 16,
-        bottomPadding: 24,
-        cornerRadius: 16,
-        backgroundColor: Color(uiColor: .systemBackground),
-        dragIndicatorColor: Color(uiColor: .secondaryLabel),
-        showDragIndicator: true
-      )
-    default: return MHModalConfiguration()
+      return MHModalConfiguration.Builder()
+        .horizontalPadding(16)
+        .bottomPadding(24)
+        .cornerRadius(16)
+        .backgroundColor(Color(uiColor: .systemBackground))
+        .dragIndicatorColor(Color(uiColor: .secondaryLabel))
+        .showDragIndicator(true)
+        .build()
+    default: return MHModalConfiguration.default()
     }
   }
 }
-//
 // MARK: - Modal Presenter
+//
+/// A view modifier that presents the appropriate modal based on the active modal type.
 private struct ModalPresenter: ViewModifier {
   @Binding var activeModal: ModalType?
   
@@ -126,7 +141,7 @@ private struct ModalPresenter: ViewModifier {
           get: { activeModal != nil },
           set: { if !$0 { activeModal = nil } }
         ),
-        configuration: activeModal?.configuration ?? MHModalConfiguration()
+        configuration: activeModal?.configuration ?? MHModalConfiguration.default()
       ) {
         if let type = activeModal {
           modalContent(for: type)
@@ -134,6 +149,10 @@ private struct ModalPresenter: ViewModifier {
       }
   }
   
+  /// Returns the appropriate modal content based on the modal type.
+  ///
+  /// - Parameter type: The `ModalType` for which to create content.
+  /// - Returns: A view representing the content for the specified modal type.
   @ViewBuilder
   private func modalContent(for type: ModalType) -> some View {
     switch type {
@@ -148,8 +167,9 @@ private struct ModalPresenter: ViewModifier {
     }
   }
 }
-//
 // MARK: - Modal Contents
+//
+/// Represents the content for a basic modal.
 private struct BasicModalContent: View {
   let onDismiss: () -> Void
   
@@ -176,6 +196,7 @@ private struct BasicModalContent: View {
   }
 }
 //
+/// Represents the content for a custom styled modal.
 private struct CustomModalContent: View {
   let onDismiss: () -> Void
   
@@ -205,6 +226,7 @@ private struct CustomModalContent: View {
     .background(.ultraThinMaterial)
   }
   
+  /// Creates a sparkles image with appropriate effects based on the iOS version.
   @ViewBuilder
   private var sparklesImage: some View {
     if #available(iOS 18.0, *) {
@@ -218,7 +240,7 @@ private struct CustomModalContent: View {
       Image(systemName: "sparkles.rectangle.stack.fill")
         .font(.system(size: 48))
         .foregroundStyle(.purple)
-//        .symbolEffect(.bounce)
+      //        .symbolEffect(.bounce)
     } else {
       // iOS < 17.0 uses standard image
       Image(systemName: "sparkles.rectangle.stack.fill")
@@ -228,6 +250,7 @@ private struct CustomModalContent: View {
   }
 }
 //
+/// Represents the content for a modal with dynamic content.
 private struct DynamicModalContent: View {
   let onDismiss: () -> Void
   @State private var isExpanded = false
@@ -287,7 +310,7 @@ private struct DynamicModalContent: View {
       Image(systemName: "rectangle.stack.fill")
         .font(.system(size: 48))
         .foregroundStyle(.orange)
-//        .symbolEffect(.bounce)
+      //        .symbolEffect(.bounce)
     } else {
       Image(systemName: "rectangle.stack.fill")
         .font(.system(size: 48))
@@ -296,6 +319,7 @@ private struct DynamicModalContent: View {
   }
 }
 //
+/// Represents the content for a modal with custom configuration.
 private struct ConfiguredModalContent: View {
   let onDismiss: () -> Void
   

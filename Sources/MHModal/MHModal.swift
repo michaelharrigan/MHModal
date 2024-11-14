@@ -7,6 +7,31 @@
 //
 import SwiftUI
 //
+/// A customizable modal view that can be presented and dismissed with various animations and interactions.
+///
+/// `MHModal` provides a flexible way to present content in a modal fashion, with support for:
+/// - Custom content
+/// - Drag-to-dismiss gesture
+/// - Configurable appearance and behavior
+/// - Adaptive height based on content
+/// - Smooth animations for presentation and dismissal
+///
+/// Example usage:
+/// ```swift
+/// struct ContentView: View {
+///     @State private var showModal = false
+///
+///     var body: some View {
+///         Button("Show Modal") {
+///             showModal = true
+///         }
+///         .mhModal(isPresented: $showModal) {
+///             Text("Modal Content")
+///                 .padding()
+///         }
+///     }
+/// }
+/// ```
 public struct MHModal<Content: View>: View {
   // MARK: - Properties
   @Binding private var isPresented: Bool
@@ -18,25 +43,38 @@ public struct MHModal<Content: View>: View {
   @GestureState private var isDragging = false
   
   // MARK: - Initialization
+  
+  /// Creates a new instance of `MHModal` with the specified parameters.
+  ///
+  /// - Parameters:
+  ///   - isPresented: A binding to a Boolean value that determines whether the modal is currently presented.
+  ///   - configuration: The configuration options for the modal. Defaults to `MHModalConfiguration.default()`.
+  ///   - content: A closure that returns the content view to be displayed within the modal.
   public init(
     isPresented: Binding<Bool>,
-    configuration: MHModalConfiguration = MHModalConfiguration(),
+    configuration: MHModalConfiguration = MHModalConfiguration.default(),
     @ViewBuilder content: () -> Content
   ) {
     self._isPresented = isPresented
     self.configuration = configuration
     self.content = content()
   }
+  
+  /// Configuration for the spring animation used when the modal is dragged.
   private let springConfig = SpringAnimation(
     response: 0.35,  // Faster response
     dampingFraction: 0.7  // Less damping for more natural bounce
   )
-  //
+  
+  /// Configuration for the spring animation used when the modal is dismissed.
   private let dismissConfig = SpringAnimation(
     response: 0.28,  // Quick dismissal
     dampingFraction: 0.68  // Slight bounce on dismiss
   )
+  
   // MARK: - Private Properties
+  
+  /// Calculates the height of the modal based on content size and available detents.
   private var modalHeight: CGFloat {
     let screenHeight = UIScreen.main.bounds.height
     let maxDetentHeight = configuration.availableDetents
@@ -46,10 +84,12 @@ public struct MHModal<Content: View>: View {
     return min(contentSize.height + topPadding, maxDetentHeight)
   }
   
+  /// Determines the top padding of the modal content.
   private var topPadding: CGFloat {
     configuration.showDragIndicator ? 37 : 0
   }
   
+  /// Provides the appropriate animation for dragging the modal.
   private var dragAnimation: Animation {
     isDragging ? .interactiveSpring() : .spring(
       response: springConfig.response,
@@ -58,6 +98,8 @@ public struct MHModal<Content: View>: View {
   }
   
   // MARK: - Body
+  
+  /// The body of the `MHModal` view.
   public var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .bottom) {
@@ -70,6 +112,8 @@ public struct MHModal<Content: View>: View {
   }
   
   // MARK: - Private Views
+  
+  /// Creates the semi-transparent background for the modal.
   @ViewBuilder
   private var background: some View {
     Color.black
@@ -81,6 +125,7 @@ public struct MHModal<Content: View>: View {
       }
   }
   
+  /// Builds the main content of the modal, including the drag indicator and user-provided content.
   @ViewBuilder
   private func modalContent(geometry: GeometryProxy) -> some View {
     VStack(spacing: 0) {
@@ -111,6 +156,7 @@ public struct MHModal<Content: View>: View {
     .transition(modalTransition)
   }
   
+  /// Creates the drag indicator view at the top of the modal.
   @ViewBuilder
   private var dragIndicator: some View {
     RoundedRectangle(cornerRadius: 2.5)
@@ -120,6 +166,7 @@ public struct MHModal<Content: View>: View {
       .padding(.bottom, 20)
   }
   
+  /// A view that reads the size of its content and updates the `contentSize` state.
   @ViewBuilder
   private var sizeReader: some View {
     GeometryReader { proxy in
@@ -132,6 +179,8 @@ public struct MHModal<Content: View>: View {
   }
   
   // MARK: - Gestures and Animations
+  
+  /// The drag gesture used for interactive dismissal of the modal.
   private var dragGesture: some Gesture {
     DragGesture()
       .updating($isDragging) { _, state, _ in
@@ -145,6 +194,10 @@ public struct MHModal<Content: View>: View {
       }
   }
   
+  /// Calculates the drag offset based on the gesture translation.
+  ///
+  /// - Parameter translation: The vertical translation of the drag gesture.
+  /// - Returns: The calculated drag offset.
   private func calculateDragOffset(_ translation: CGFloat) -> CGFloat {
     if translation < 0 {
       return -sqrt(abs(translation)) * 4
@@ -153,6 +206,9 @@ public struct MHModal<Content: View>: View {
     }
   }
   
+  /// Handles the end of a drag gesture, determining whether to dismiss the modal or reset its position.
+  ///
+  /// - Parameter value: The final value of the drag gesture.
   private func handleDragEnd(_ value: DragGesture.Value) {
     let velocity = value.predictedEndLocation.y - value.location.y
     let shouldDismiss = value.translation.height > 100 || velocity > 170
@@ -166,6 +222,7 @@ public struct MHModal<Content: View>: View {
     }
   }
   
+  /// Dismisses the modal with a spring animation.
   private func dismissModal() {
     withAnimation(.spring(
       response: dismissConfig.response,
@@ -175,6 +232,7 @@ public struct MHModal<Content: View>: View {
     }
   }
   
+  /// Defines the transition animation for the modal's appearance and disappearance.
   private var modalTransition: AnyTransition {
     .asymmetric(
       insertion: .opacity
