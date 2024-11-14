@@ -104,7 +104,7 @@ public struct MHModal<Content: View>: View {
     GeometryReader { geometry in
       ZStack(alignment: .bottom) {
         if isPresented {
-          background
+          contentOverlay
           modalContent(geometry: geometry)
         }
       }
@@ -115,8 +115,8 @@ public struct MHModal<Content: View>: View {
   
   /// Creates the semi-transparent background for the modal.
   @ViewBuilder
-  private var background: some View {
-    Color.black
+  private var contentOverlay: some View {
+    configuration.contentOverlayColor
       .opacity(0.4 * (1.0 - min(Double(dragOffset) / 300.0, 1.0)))
       .ignoresSafeArea()
       .transition(.opacity.animation(.easeOut(duration: 0.2)))

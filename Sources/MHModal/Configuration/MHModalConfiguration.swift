@@ -37,6 +37,9 @@ public struct MHModalConfiguration {
   /// Determines whether the modal can be dismissed by dragging.
   let enableDragToDismiss: Bool
   
+  /// The dimmed overlay behind the modal content.
+  let contentOverlayColor: Color
+  
   // MARK: - Initialization
   
   /// Private initializer that creates a new `MHModalConfiguration` instance from a `Builder`.
@@ -51,6 +54,7 @@ public struct MHModalConfiguration {
     self.showDragIndicator = builder.showDragIndicator
     self.availableDetents = builder.availableDetents.isEmpty ? [.large] : builder.availableDetents
     self.enableDragToDismiss = builder.enableDragToDismiss
+    self.contentOverlayColor = builder.contentOverlayColor
   }
   
   // MARK: - Builder
@@ -68,11 +72,19 @@ public struct MHModalConfiguration {
     var showDragIndicator: Bool = true
     var availableDetents: [MHModalDetent] = [.large]
     var enableDragToDismiss: Bool = true
+    var contentOverlayColor: Color = .black
     
     /// Initializes a new `Builder` instance with default values.
     public init() {}
     
     // MARK: Builder Methods
+    
+    /// Sets the dimmed overlay color behind the modal.
+    @discardableResult
+    public func contentOverlayColor(_ value: Color) -> Builder {
+      self.contentOverlayColor = value
+      return self
+    }
     
     /// Sets the horizontal padding for the modal.
     @discardableResult

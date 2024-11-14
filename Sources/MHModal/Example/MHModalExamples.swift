@@ -123,6 +123,7 @@ private enum ModalType: String, CaseIterable {
         .backgroundColor(Color(uiColor: .systemBackground))
         .dragIndicatorColor(Color(uiColor: .secondaryLabel))
         .showDragIndicator(true)
+        .contentOverlayColor(Color.orange)
         .build()
     default: return MHModalConfiguration.default()
     }
