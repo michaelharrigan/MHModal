@@ -79,7 +79,6 @@ private enum ModalType: String, CaseIterable {
     }
   }
   
-
   /// The tint color for each modal type.
   var tint: Color {
     switch self {
@@ -363,8 +362,7 @@ private struct ConfiguredModalContent: View {
     }
   }
 }
-//
+
 #Preview {
   MHModalExamples()
 }
-//

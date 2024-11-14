@@ -5,6 +5,7 @@
 //  Created by Michael Harrigan on 11/1/24.
 //
 import SwiftUI
+
 /// A view that demonstrates the content of an example modal using `MHModal`.
 ///
 /// This struct showcases how to create dynamic content within a modal,

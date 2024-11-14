@@ -1,6 +1,5 @@
 import XCTest
 import SwiftUI
-
 @testable import MHModal
 
 final class MHModalTests: XCTestCase {
