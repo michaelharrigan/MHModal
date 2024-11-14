@@ -6,7 +6,7 @@
 //
 //
 import SwiftUI
-//
+
 /// A customizable modal view that can be presented and dismissed with various animations and interactions.
 ///
 /// `MHModal` provides a flexible way to present content in a modal fashion, with support for:
@@ -37,7 +37,7 @@ public struct MHModal<Content: View>: View {
   @Binding private var isPresented: Bool
   private let content: Content
   private let configuration: MHModalConfiguration
-  
+
   @State private var contentSize: CGSize = .zero
   @State private var dragOffset: CGFloat = 0
   @GestureState private var isDragging = false
@@ -104,7 +104,7 @@ public struct MHModal<Content: View>: View {
     GeometryReader { geometry in
       ZStack(alignment: .bottom) {
         if isPresented {
-          background
+          contentOverlay
           modalContent(geometry: geometry)
         }
       }
@@ -115,8 +115,8 @@ public struct MHModal<Content: View>: View {
   
   /// Creates the semi-transparent background for the modal.
   @ViewBuilder
-  private var background: some View {
-    Color.black
+  private var contentOverlay: some View {
+    configuration.contentOverlayColor
       .opacity(0.4 * (1.0 - min(Double(dragOffset) / 300.0, 1.0)))
       .ignoresSafeArea()
       .transition(.opacity.animation(.easeOut(duration: 0.2)))
