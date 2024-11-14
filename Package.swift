@@ -4,21 +4,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "MHModal",
-    platforms: [
-      .iOS(.v15),
-      .macOS(.v12)
-    ], products: [
-      .library(
-        name: "MHModal",
-        targets: ["MHModal"])
-    ],
-    targets: [
-        .target(
-            name: "MHModal"),
-        .testTarget(
-            name: "MHModalTests",
-            dependencies: ["MHModal"]
-        )
-    ]
+  name: "MHModal",
+  platforms: [
+    .iOS(.v17),
+    .macOS(.v14),
+  ],
+  products: [
+    .library(
+      name: "MHModal",
+      targets: ["MHModal"])
+  ],
+  targets: [
+    .target(
+      name: "MHModal"),
+    .testTarget(
+      name: "MHModalTests",
+      dependencies: ["MHModal"]
+    ),
+  ]
 )
