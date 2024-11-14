@@ -11,6 +11,8 @@ MHModal is a highly customizable, interactive modal presentation component for S
 - 📜 Automatic scrolling for overflow content
 - 🔒 Safe area awareness
 - 📐 Dynamic content sizing
+- 🛠 Builder pattern for easy configuration
+- 📚 Comprehensive DocC documentation
 
 ## Requirements
 
@@ -32,7 +34,7 @@ dependencies: [
 
 Or add it directly through Xcode:
 1. File > Add Packages
-2. Enter the repository URL: https://github.com/YOUR_USERNAME/MHModal.git
+2. Enter the repository URL: https://github.com/michaelharrigan/MHModal.git
 
 ## Usage
 
@@ -67,14 +69,14 @@ struct ContentView: View {
 ```swift
 .mhModal(
     isPresented: $showModal,
-    configuration: MHModalConfiguration(
-        horizontalPadding: 16,
-        cornerRadius: 24,
-        backgroundColor: .white,
-        dragIndicatorColor: .blue.opacity(0.3),
-        availableDetents: [.medium, .large],
-        enableDragToDismiss: true
-    )
+    configuration: MHModalConfiguration.Builder()
+        .horizontalPadding(16)
+        .cornerRadius(24)
+        .backgroundColor(.white)
+        .dragIndicatorColor(.blue.opacity(0.3))
+        .availableDetents([.medium, .large])
+        .enableDragToDismiss(true)
+        .build()
 ) {
     YourModalContent()
 }
@@ -85,15 +87,15 @@ struct ContentView: View {
 MHModal supports three types of detents:
 - `.medium` - 50% of available height
 - `.large` - 85% of available height
-- `.custom(height:)` - Custom height multiplier
+- `.custom(height:)` - Custom height multiplier (clamped between 0 and 1)
 
 ```swift
 // Example with multiple detents
 .mhModal(
     isPresented: $showModal,
-    configuration: MHModalConfiguration(
-        availableDetents: [.medium, .large]
-    )
+    configuration: MHModalConfiguration.Builder()
+        .availableDetents([.medium, .large, .custom(height: 0.7)])
+        .build()
 ) {
     YourModalContent()
 }
@@ -114,6 +116,29 @@ public struct MHModalConfiguration {
 }
 ```
 
+### Spring Animations
+
+MHModal uses custom spring animations for smooth transitions. You can customize these animations using the `SpringAnimation` struct:
+
+```swift
+public struct SpringAnimation {
+    let response: Double
+    let dampingFraction: Double
+}
+```
+
+## Documentation
+
+Comprehensive DocC documentation is available for all public APIs. To view the documentation in Xcode:
+
+1. Build the MHModal target
+2. Go to Product > Build Documentation
+3. Open the documentation viewer and navigate to MHModal
+
+## Examples
+
+Check out the `MHModalExamples` struct in the package for various usage examples and configurations.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -121,3 +146,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MHModal is available under the MIT license.
+
+// End of file. No additional content.
