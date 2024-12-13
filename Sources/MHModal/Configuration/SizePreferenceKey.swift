@@ -16,7 +16,7 @@ import SwiftUI
   ///
   /// This is set to `.zero` as a starting point before any actual sizes are captured.
   static let defaultValue: CGSize = .zero
-  
+
   /// Combines the current value with the next value in the preference key chain.
   ///
   /// In this implementation, it simply replaces the current value with the next value.

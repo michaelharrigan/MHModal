@@ -7,7 +7,7 @@ let package = Package(
   name: "MHModal",
   platforms: [
     .iOS(.v17),
-    .macOS(.v14),
+    .macOS(.v14)
   ],
   products: [
     .library(
@@ -20,6 +20,6 @@ let package = Package(
     .testTarget(
       name: "MHModalTests",
       dependencies: ["MHModal"]
-    ),
+    )
   ]
 )

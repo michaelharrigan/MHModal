@@ -13,21 +13,21 @@ import SwiftUI
 struct ExampleModalContent: View {
   /// A binding to control the presentation state of the modal.
   @Binding var isPresented: Bool
-  
+
   /// A state variable to control the expanded state of additional content.
   @State private var isExpanded = false
-  
+
   var body: some View {
     VStack(spacing: 24) {
       Text("Modal Content")
         .font(.headline)
-      
+
       if isExpanded {
         Text("Additional Content that expands the modal size smoothly")
           .transition(.opacity)
           .multilineTextAlignment(.center)
       }
-      
+
       Button(action: {
         withAnimation(
           .spring(
@@ -46,7 +46,7 @@ struct ExampleModalContent: View {
           .foregroundColor(.white)
           .cornerRadius(16)
       }
-      
+
       Button(action: {
         withAnimation(
           .spring(

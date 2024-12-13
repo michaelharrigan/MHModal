@@ -13,21 +13,21 @@ import SwiftUI
 /// which can be applied to various UI elements for smooth, natural-looking transitions.
 public struct SpringAnimation {
   // MARK: - Properties
-  
+
   /// The response time of the spring animation.
   ///
   /// This value determines how quickly the animation responds to changes.
   /// A lower value results in a faster response.
   public let response: Double
-  
+
   /// The damping fraction of the spring animation.
   ///
   /// This value determines how quickly the animation settles.
   /// A value of 1 results in no oscillation, while lower values allow for more oscillation.
   public let dampingFraction: Double
-  
+
   // MARK: - Initialization
-  
+
   /// Creates a new `SpringAnimation` instance with the specified parameters.
   ///
   /// - Parameters:
