@@ -17,7 +17,7 @@ public enum MHModalDetent: Equatable {
   case large
   /// A custom detent with a specific height multiplier.
   case custom(height: CGFloat)
-  
+
   /// The height multiplier associated with each detent.
   var heightMultiplier: CGFloat {
     switch self {

@@ -12,11 +12,11 @@ import SwiftUI
 /// and how to control its presentation state.
 struct ContentView: View {
   @State private var showModal = false
-  
+
   var body: some View {
     ZStack {
       Color.gray.opacity(0.1).ignoresSafeArea()
-      
+
       Button("Show Modal") {
         withAnimation(.spring()) {
           showModal = true

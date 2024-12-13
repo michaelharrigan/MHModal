@@ -41,9 +41,9 @@ public struct MHModal<Content: View>: View {
   @State private var contentSize: CGSize = .zero
   @State private var dragOffset: CGFloat = 0
   @GestureState private var isDragging = false
-  
+
   // MARK: - Initialization
-  
+
   /// Creates a new instance of `MHModal` with the specified parameters.
   ///
   /// - Parameters:
@@ -59,36 +59,36 @@ public struct MHModal<Content: View>: View {
     self.configuration = configuration
     self.content = content()
   }
-  
+
   /// Configuration for the spring animation used when the modal is dragged.
   private let springConfig = SpringAnimation(
     response: 0.35,  // Faster response
     dampingFraction: 0.7  // Less damping for more natural bounce
   )
-  
+
   /// Configuration for the spring animation used when the modal is dismissed.
   private let dismissConfig = SpringAnimation(
     response: 0.28,  // Quick dismissal
     dampingFraction: 0.68  // Slight bounce on dismiss
   )
-  
+
   // MARK: - Private Properties
-  
+
   /// Calculates the height of the modal based on content size and available detents.
   private var modalHeight: CGFloat {
     let screenHeight = UIScreen.main.bounds.height
     let maxDetentHeight = configuration.availableDetents
       .map { $0.heightMultiplier * screenHeight }
       .max() ?? screenHeight * 0.85
-    
+
     return min(contentSize.height + topPadding, maxDetentHeight)
   }
-  
+
   /// Determines the top padding of the modal content.
   private var topPadding: CGFloat {
     configuration.showDragIndicator ? 37 : 0
   }
-  
+
   /// Provides the appropriate animation for dragging the modal.
   private var dragAnimation: Animation {
     isDragging ? .interactiveSpring() : .spring(
@@ -96,9 +96,9 @@ public struct MHModal<Content: View>: View {
       dampingFraction: springConfig.dampingFraction
     )
   }
-  
+
   // MARK: - Body
-  
+
   /// The body of the `MHModal` view.
   public var body: some View {
     GeometryReader { geometry in
@@ -110,9 +110,9 @@ public struct MHModal<Content: View>: View {
       }
     }
   }
-  
+
   // MARK: - Private Views
-  
+
   /// Creates the semi-transparent background for the modal.
   @ViewBuilder
   private var contentOverlay: some View {
@@ -124,7 +124,7 @@ public struct MHModal<Content: View>: View {
         dismissModal()
       }
   }
-  
+
   /// Builds the main content of the modal, including the drag indicator and user-provided content.
   @ViewBuilder
   private func modalContent(geometry: GeometryProxy) -> some View {
@@ -132,7 +132,7 @@ public struct MHModal<Content: View>: View {
       if configuration.showDragIndicator {
         dragIndicator
       }
-      
+
       if contentSize.height > modalHeight {
         ScrollView {
           content
@@ -155,7 +155,7 @@ public struct MHModal<Content: View>: View {
     .gesture(configuration.enableDragToDismiss ? dragGesture : nil)
     .transition(modalTransition)
   }
-  
+
   /// Creates the drag indicator view at the top of the modal.
   @ViewBuilder
   private var dragIndicator: some View {
@@ -165,7 +165,7 @@ public struct MHModal<Content: View>: View {
       .padding(.top, 12)
       .padding(.bottom, 20)
   }
-  
+
   /// A view that reads the size of its content and updates the `contentSize` state.
   @ViewBuilder
   private var sizeReader: some View {
@@ -179,9 +179,9 @@ public struct MHModal<Content: View>: View {
       }
     }
   }
-  
+
   // MARK: - Gestures and Animations
-  
+
   /// The drag gesture used for interactive dismissal of the modal.
   private var dragGesture: some Gesture {
     DragGesture()
@@ -195,7 +195,7 @@ public struct MHModal<Content: View>: View {
         handleDragEnd(value)
       }
   }
-  
+
   /// Calculates the drag offset based on the gesture translation.
   ///
   /// - Parameter translation: The vertical translation of the drag gesture.
@@ -207,14 +207,14 @@ public struct MHModal<Content: View>: View {
       return translation * 0.7
     }
   }
-  
+
   /// Handles the end of a drag gesture, determining whether to dismiss the modal or reset its position.
   ///
   /// - Parameter value: The final value of the drag gesture.
   private func handleDragEnd(_ value: DragGesture.Value) {
     let velocity = value.predictedEndLocation.y - value.location.y
     let shouldDismiss = value.translation.height > 100 || velocity > 170
-    
+
     if shouldDismiss {
       dismissModal()
     } else {
@@ -223,7 +223,7 @@ public struct MHModal<Content: View>: View {
       }
     }
   }
-  
+
   /// Dismisses the modal with a spring animation.
   private func dismissModal() {
     withAnimation(.spring(
@@ -233,7 +233,7 @@ public struct MHModal<Content: View>: View {
       isPresented = false
     }
   }
-  
+
   /// Defines the transition animation for the modal's appearance and disappearance.
   private var modalTransition: AnyTransition {
     .asymmetric(

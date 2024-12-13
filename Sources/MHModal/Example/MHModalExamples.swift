@@ -14,7 +14,7 @@ import SwiftUI
 struct MHModalExamples: View {
   @State private var activeModal: ModalType?
   @Environment(\.colorScheme) private var colorScheme
-  
+
   var body: some View {
     NavigationStack {
       List {
@@ -48,12 +48,12 @@ struct MHModalExamples: View {
           .font(.title2)
           .foregroundStyle(type.tint)
           .frame(width: 32)
-        
+
         VStack(alignment: .leading, spacing: 4) {
           Text(type.title)
             .font(.body)
             .foregroundStyle(.primary)
-          
+
           Text(type.description)
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -68,7 +68,7 @@ struct MHModalExamples: View {
 /// Represents different types of modals that can be presented.
 private enum ModalType: String, CaseIterable {
   case basic, custom, dynamic, configured
-  
+
   /// The icon associated with each modal type.
   var icon: Image {
     switch self {
@@ -78,7 +78,7 @@ private enum ModalType: String, CaseIterable {
     case .configured: Image(systemName: "gearshape.rectangle")
     }
   }
-  
+
   /// The tint color for each modal type.
   var tint: Color {
     switch self {
@@ -88,7 +88,7 @@ private enum ModalType: String, CaseIterable {
     case .configured: .green
     }
   }
-  
+
   /// The title for each modal type.
   var title: String {
     switch self {
@@ -98,7 +98,7 @@ private enum ModalType: String, CaseIterable {
     case .configured: "Custom Configuration"
     }
   }
-  
+
   /// A brief description of each modal type.
   var description: String {
     switch self {
@@ -108,10 +108,10 @@ private enum ModalType: String, CaseIterable {
     case .configured: "Custom presentation behavior"
     }
   }
-  
+
   /// The section title for each modal type.
   var sectionTitle: String { title }
-  
+
   /// The configuration for each modal type.
   var configuration: MHModalConfiguration {
     switch self {
@@ -134,7 +134,7 @@ private enum ModalType: String, CaseIterable {
 /// A view modifier that presents the appropriate modal based on the active modal type.
 private struct ModalPresenter: ViewModifier {
   @Binding var activeModal: ModalType?
-  
+
   func body(content: Content) -> some View {
     content
       .mhModal(
@@ -149,7 +149,7 @@ private struct ModalPresenter: ViewModifier {
         }
       }
   }
-  
+
   /// Returns the appropriate modal content based on the modal type.
   ///
   /// - Parameter type: The `ModalType` for which to create content.
@@ -173,7 +173,7 @@ private struct ModalPresenter: ViewModifier {
 /// Represents the content for a basic modal.
 private struct BasicModalContent: View {
   let onDismiss: () -> Void
-  
+
   var body: some View {
     VStack(spacing: 24) {
       VStack(spacing: 8) {
@@ -184,7 +184,7 @@ private struct BasicModalContent: View {
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
       }
-      
+
       Button(action: onDismiss) {
         Text("Dismiss")
           .font(.headline)
@@ -200,11 +200,11 @@ private struct BasicModalContent: View {
 /// Represents the content for a custom styled modal.
 private struct CustomModalContent: View {
   let onDismiss: () -> Void
-  
+
   var body: some View {
     VStack(spacing: 24) {
       sparklesImage
-      
+
       VStack(spacing: 8) {
         Text("Custom Styled")
           .font(.title2.bold())
@@ -213,7 +213,7 @@ private struct CustomModalContent: View {
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
       }
-      
+
       Button(action: onDismiss) {
         Text("Done")
           .font(.headline)
@@ -226,7 +226,7 @@ private struct CustomModalContent: View {
     .padding(24)
     .background(.ultraThinMaterial)
   }
-  
+
   /// Creates a sparkles image with appropriate effects based on the iOS version.
   @ViewBuilder
   private var sparklesImage: some View {
@@ -255,7 +255,7 @@ private struct CustomModalContent: View {
 private struct DynamicModalContent: View {
   let onDismiss: () -> Void
   @State private var isExpanded = false
-  
+
   var body: some View {
     VStack(spacing: 24) {
       VStack(spacing: 8) {
@@ -266,11 +266,11 @@ private struct DynamicModalContent: View {
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
       }
-      
+
       if isExpanded {
         VStack(spacing: 16) {
           expandedImage
-          
+
           Text("Additional content appears with smooth animations, demonstrating the modal's ability to adapt to content changes.")
             .font(.callout)
             .foregroundStyle(.secondary)
@@ -278,7 +278,7 @@ private struct DynamicModalContent: View {
         }
         .transition(.move(edge: .top).combined(with: .opacity))
       }
-      
+
       VStack(spacing: 12) {
         Button {
           withAnimation(.spring()) {
@@ -291,7 +291,7 @@ private struct DynamicModalContent: View {
         }
         .buttonStyle(.bordered)
         .controlSize(.large)
-        
+
         Button(action: onDismiss) {
           Text("Dismiss")
             .font(.headline)
@@ -304,7 +304,7 @@ private struct DynamicModalContent: View {
     }
     .padding(24)
   }
-  
+
   @ViewBuilder
   private var expandedImage: some View {
     if #available(iOS 17.0, *) {
@@ -323,11 +323,11 @@ private struct DynamicModalContent: View {
 /// Represents the content for a modal with custom configuration.
 private struct ConfiguredModalContent: View {
   let onDismiss: () -> Void
-  
+
   var body: some View {
     VStack(spacing: 24) {
       gearImage
-      
+
       VStack(spacing: 8) {
         Text("Custom Configuration")
           .font(.title2.bold())
@@ -336,7 +336,7 @@ private struct ConfiguredModalContent: View {
           .foregroundStyle(.secondary)
           .multilineTextAlignment(.center)
       }
-      
+
       Button(action: onDismiss) {
         Text("Close")
           .font(.headline)
@@ -348,7 +348,7 @@ private struct ConfiguredModalContent: View {
     }
     .padding(24)
   }
-  
+
   @ViewBuilder
   private var gearImage: some View {
     if #available(iOS 17.0, *) {
