@@ -174,7 +174,9 @@ public struct MHModal<Content: View>: View {
         .preference(key: SizePreferenceKey.self, value: proxy.size)
     }
     .onPreferenceChange(SizePreferenceKey.self) { size in
-      contentSize = size
+      DispatchQueue.main.async {
+        contentSize = size
+      }
     }
   }
   
