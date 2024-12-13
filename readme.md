@@ -1,44 +1,36 @@
 # MHModal
 
-MHModal is a highly customizable, interactive modal presentation component for SwiftUI that features smooth animations, gesture-based dismissal, and dynamic content sizing. It supports multiple detents (like iOS sheets), scrollable content, and safe area awareness.
+A dynamic, content-adaptive floating modal for SwiftUI.
+
+![MHModal Example](https://raw.githubusercontent.com/michaelharrigan/MHModal/main/preview.gif)
 
 ## Features
 
-- 🎨 Highly customizable appearance
-- 📱 iOS-style sheet presentation with multiple detents
-- 🔄 Smooth spring animations
-- 👆 Interactive gesture-based dismissal
-- 📜 Automatic scrolling for overflow content
-- 🔒 Safe area awareness
-- 📐 Dynamic content sizing
-- 🛠 Builder pattern for easy configuration
-- 📚 Comprehensive DocC documentation
+- **Auto-resizing**: Adapts to content changes
+- **Customizable**: Flexible appearance and behavior
+- **Interactive**: Gesture-based dismissal
+- **Responsive**: Built-in scrolling for large content
+- **Simple API**: Intuitive integration
 
 ## Requirements
 
-- iOS 15.0+ / macOS 12.0+
-- Swift 5.9+
+- iOS 15.0+ / macOS 14.0+
+- Swift 6.0+
 - Xcode 15.0+
 
 ## Installation
 
 ### Swift Package Manager
 
-Add the following to your `Package.swift` file:
-
 ```swift
 dependencies: [
-    .package(url: "https://github.com/YOUR_USERNAME/MHModal.git", from: "1.0.0")
+    .package(url: "https://github.com/michaelharrigan/MHModal.git", from: "2.1.0")
 ]
 ```
 
-Or add it directly through Xcode:
-1. File > Add Packages
-2. Enter the repository URL: https://github.com/michaelharrigan/MHModal.git
-
 ## Usage
 
-### Basic Usage
+### Basic Example
 
 ```swift
 import SwiftUI
@@ -51,12 +43,15 @@ struct ContentView: View {
         Button("Show Modal") {
             showModal = true
         }
-        .mhModal(isPresented: $showModal) {
-            VStack {
-                Text("Modal Content")
+        .modal(isPresented: $showModal) {
+            VStack(spacing: 20) {
+                Text("Hello World!")
+                    .font(.title)
+                
                 Button("Close") {
                     showModal = false
                 }
+                .buttonStyle(.borderedProminent)
             }
             .padding()
         }
@@ -64,84 +59,79 @@ struct ContentView: View {
 }
 ```
 
-### Custom Configuration
+### Customization
+
+#### Appearance
 
 ```swift
-.mhModal(
+.modal(
     isPresented: $showModal,
-    configuration: MHModalConfiguration.Builder()
-        .horizontalPadding(16)
-        .cornerRadius(24)
-        .backgroundColor(.white)
-        .dragIndicatorColor(.blue.opacity(0.3))
-        .availableDetents([.medium, .large])
-        .enableDragToDismiss(true)
-        .build()
+    appearance: .dark  // Built-in theme
 ) {
-    YourModalContent()
+    Text("Dark theme modal")
 }
-```
 
-### Available Detents
-
-MHModal supports three types of detents:
-- `.medium` - 50% of available height
-- `.large` - 85% of available height
-- `.custom(height:)` - Custom height multiplier (clamped between 0 and 1)
-
-```swift
-// Example with multiple detents
-.mhModal(
+// Custom appearance
+.modal(
     isPresented: $showModal,
-    configuration: MHModalConfiguration.Builder()
-        .availableDetents([.medium, .large, .custom(height: 0.7)])
-        .build()
+    appearance: ModalAppearance(
+        background: .white,
+        overlayColor: Color.black.opacity(0.4),
+        cornerRadius: 24,
+        showDragIndicator: true
+    )
 ) {
-    YourModalContent()
+    Text("Custom appearance")
 }
 ```
 
-### Configuration Options
+#### Behavior
 
 ```swift
-public struct MHModalConfiguration {
-    let horizontalPadding: CGFloat
-    let bottomPadding: CGFloat
-    let cornerRadius: CGFloat
-    let backgroundColor: Color
-    let dragIndicatorColor: Color
-    let showDragIndicator: Bool
-    let availableDetents: [MHModalDetent]
-    let enableDragToDismiss: Bool
+// Non-dismissible
+.modal(
+    isPresented: $showModal,
+    behavior: .nonDismissible
+) {
+    Text("Programmatic dismiss only")
+}
+
+// Custom behavior
+.modal(
+    isPresented: $showModal,
+    behavior: ModalBehavior(
+        enableDragToDismiss: true,
+        tapToDismiss: false
+    )
+) {
+    Text("Custom behavior")
 }
 ```
 
-### Spring Animations
+## Configuration Options
 
-MHModal uses custom spring animations for smooth transitions. You can customize these animations using the `SpringAnimation` struct:
+### Appearance Properties
 
-```swift
-public struct SpringAnimation {
-    let response: Double
-    let dampingFraction: Double
-}
-```
+| Property | Description |
+|----------|-------------|
+| `background` | Modal background color |
+| `overlayColor` | Dimmed background overlay color |
+| `cornerRadius` | Modal corner radius |
+| `showDragIndicator` | Toggle for drag indicator visibility |
+| `maxHeightRatio` | Maximum height ratio (0.0-1.0) |
+| `sizeChangeAnimation` | Animation for size changes |
+
+### Behavior Properties
+
+| Property | Description |
+|----------|-------------|
+| `enableDragToDismiss` | Allow dismissal via dragging |
+| `tapToDismiss` | Allow dismissal via overlay tap |
+| `dismissVelocityThreshold` | Velocity threshold for dismissal |
 
 ## Documentation
 
-Comprehensive DocC documentation is available for all public APIs. To view the documentation in Xcode:
-
-1. Build the MHModal target
-2. Go to Product > Build Documentation
-3. Open the documentation viewer and navigate to MHModal
-
-## Examples
-
-Check out the `MHModalExamples` struct in the package for various usage examples and configurations.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+API documentation is available in Xcode. Build the MHModal target, then go to Product > Build Documentation.
 
 ## License
 
